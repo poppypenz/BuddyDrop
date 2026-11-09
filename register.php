@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $role = $_POST['role'];
     $phone = $_POST['phone'];
 
-    $sql = "INSERT INTO User (username, password, role, phone) VALUES ('$username', '$password', '$role', '$phone')";
+    $sql = "INSERT INTO user (username, password, role, phone) VALUES ('$username', '$password', '$role', '$phone')";
     
     if ($conn->query($sql) === TRUE) {
         echo "<script>alert('สมัครสมาชิกสำเร็จ 1,000,000%!'); window.location.href='login.php';</script>";

@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_order'])) {
     $location_id = $_POST['location_id'];
     $order_detail = $_POST['order_detail'];
     $errand_fee = $_POST['errand_fee'];
-    $sql_insert = "INSERT INTO Orders (customer_id, location_id, order_detail, errand_fee, status) 
+    $sql_insert = "INSERT INTO orders (customer_id, location_id, order_detail, errand_fee, status) 
                    VALUES ('$customer_id', '$location_id', '$order_detail', '$errand_fee', 'รอผู้รับงาน')";
     $conn->query($sql_insert);
     echo "<script>window.location.href='customer_dashboard.php';</script>";
@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_order'])) {
 // [Delete] ยกเลิกออเดอร์
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cancel_order'])) {
     $order_id = $_POST['order_id'];
-    $sql_delete = "DELETE FROM Orders WHERE order_id='$order_id' AND status='รอผู้รับงาน'";
+    $sql_delete = "DELETE FROM orders WHERE order_id='$order_id' AND status='รอผู้รับงาน'";
     $conn->query($sql_delete);
     echo "<script>alert('ยกเลิกออเดอร์เรียบร้อยแล้วค่า!'); window.location.href='customer_dashboard.php';</script>";
 }
@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cancel_order'])) {
         <select name="location_id" required>
             <option value="">-- เลือกสถานที่ --</option>
             <?php
-            $result_loc = $conn->query("SELECT * FROM Locations");
+            $result_loc = $conn->query("SELECT * FROM locations");
             while($row = $result_loc->fetch_assoc()) echo "<option value='".$row['location_id']."'>".$row['name_place']."</option>";
             ?>
         </select><br><br>
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cancel_order'])) {
             <th>รหัส</th><th>รายละเอียด</th><th>ค่าหิ้ว</th><th>สถานะ</th><th>จัดการ</th>
         </tr>
         <?php
-        $sql_orders = "SELECT * FROM Orders WHERE customer_id='$customer_id' ORDER BY order_id DESC";
+        $sql_orders = "SELECT * FROM orders WHERE customer_id='$customer_id' ORDER BY order_id DESC";
         $result_orders = $conn->query($sql_orders);
         if ($result_orders->num_rows > 0) {
             while($row = $result_orders->fetch_assoc()) {

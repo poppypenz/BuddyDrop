@@ -11,7 +11,7 @@ $sender_id = $_SESSION['user_id'];
 // [Update] รับงาน
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['accept_order'])) {
     $order_id = $_POST['order_id'];
-    $sql_update = "UPDATE Orders SET sender_id='$sender_id', status='รับงานแล้ว/กำลังไปส่ง' WHERE order_id='$order_id'";
+    $sql_update = "UPDATE orders SET sender_id='$sender_id', status='รับงานแล้ว/กำลังไปส่ง' WHERE order_id='$order_id'";
     $conn->query($sql_update);
     echo "<script>window.location.href='sender_dashboard.php';</script>";
 }
@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['accept_order'])) {
 // [Update] จัดส่งสำเร็จปิดจ๊อบ
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['finish_order'])) {
     $order_id = $_POST['order_id'];
-    $sql_finish = "UPDATE Orders SET status='จัดส่งสำเร็จ' WHERE order_id='$order_id'";
+    $sql_finish = "UPDATE orders SET status='จัดส่งสำเร็จ' WHERE order_id='$order_id'";
     $conn->query($sql_finish);
     echo "<script>alert('สุดยอด! จัดส่งสำเร็จแล้ว ภารกิจลุล่วง!'); window.location.href='sender_dashboard.php';</script>";
 }
@@ -39,8 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['finish_order'])) {
             <th>รหัส</th><th>รายละเอียด</th><th>สถานที่ส่ง</th><th>ค่าหิ้ว</th><th>จัดการ</th>
         </tr>
         <?php
-        $sql_pending = "SELECT Orders.*, Locations.name_place FROM Orders 
-                        JOIN Locations ON Orders.location_id = Locations.location_id 
+        $sql_pending = "SELECT orders.*, locations.name_place FROM orders 
+                        JOIN locations ON orders.location_id = locations.location_id 
                         WHERE status='รอผู้รับงาน'";
         $result_pending = $conn->query($sql_pending);
         if ($result_pending->num_rows > 0) {
@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['finish_order'])) {
             <th>รหัส</th><th>รายละเอียด</th><th>สถานะ</th><th>จัดการ</th>
         </tr>
         <?php
-        $sql_my_jobs = "SELECT * FROM Orders WHERE sender_id='$sender_id' ORDER BY order_id DESC";
+        $sql_my_jobs = "SELECT * FROM orders WHERE sender_id='$sender_id' ORDER BY order_id DESC";
         $result_my_jobs = $conn->query($sql_my_jobs);
         if ($result_my_jobs->num_rows > 0) {
             while($row = $result_my_jobs->fetch_assoc()) {
